@@ -1,7 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import App from './App';
+import MyPokemon from './pages/MyPokemon';
+import PokemonList from './pages/PokemonList';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(
@@ -9,7 +12,15 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<App/>}>
+          <Route path="/pokemon-list" element={<PokemonList/>} />
+          <Route path="/my-pokemon" element={<MyPokemon/>} />
+        </Route>
+      </Routes>
+      <App />
+    </BrowserRouter>
   </React.StrictMode>
 );
 
