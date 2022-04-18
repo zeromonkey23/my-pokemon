@@ -56,7 +56,7 @@ const PokemonList = () => {
                        title={pokemon?.name} className="mx-auto h-64"/>
                 </div>
                 <h3 className="text-center text-4xl font-bold mb-4">{pokemon?.name?.toUpperCase()}</h3>
-                <Link to={'/pokemon-list/' + pokemon?.id} className="text-center">
+                <Link to={'/pokemon-list/' + pokemon?.name} className="text-center">
                   <button className="rounded-xl bg-black px-24 py-2 text-white">Select pokemon</button>
                 </Link>
               </div>

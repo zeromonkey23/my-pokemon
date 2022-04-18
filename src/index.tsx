@@ -27,7 +27,7 @@ root.render(
         <Routes>
           <Route path="/" element={<Navigate to="/pokemon-list" replace/>} />
           <Route path="/pokemon-list" element={<PokemonList/>}/>
-          <Route path="/pokemon-list/:id" element={<PokemonDetail />} />
+          <Route path="/pokemon-list/:name" element={<PokemonDetail />} />
           <Route path="/my-pokemon" element={<MyPokemon/>} />
         </Routes>
         <App/>
