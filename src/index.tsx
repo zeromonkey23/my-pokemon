@@ -24,12 +24,11 @@ root.render(
     <ApolloProvider client={client}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<App/>}>
-            <Route path="/pokemon-list" element={<PokemonList/>} />
-            <Route path="/my-pokemon" element={<MyPokemon/>} />
-          </Route>
+          <Route path="/" element={<Navigate to="/pokemon-list" replace/>} />
+          <Route path="/pokemon-list" element={<PokemonList/>} />
+          <Route path="/my-pokemon" element={<MyPokemon/>} />
         </Routes>
-        <App />
+        <App/>
       </BrowserRouter>
     </ApolloProvider>
   </React.StrictMode>

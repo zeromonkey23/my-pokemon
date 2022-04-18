@@ -1,10 +1,10 @@
 import React from 'react';
-import { Link, Navigate, Outlet } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import './App.css';
 
 function App() {
   return (
-    <div className="w-full h-screen">
+    <div className="w-full">
       <Outlet />
       <section id="bottom-navigation" className="block fixed inset-x-0 bottom-0 z-10 bg-white shadow">
         <div id="tabs" className="flex justify-between">
