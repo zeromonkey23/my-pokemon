@@ -4,6 +4,7 @@ import './index.css';
 import { BrowserRouter, Navigate, Route, Routes,  } from 'react-router-dom';
 import App from './App';
 import MyPokemon from './pages/MyPokemon';
+import PokemonDetail from './pages/PokemonDetail';
 import PokemonList from './pages/PokemonList';
 import reportWebVitals from './reportWebVitals';
 import {
@@ -25,7 +26,8 @@ root.render(
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Navigate to="/pokemon-list" replace/>} />
-          <Route path="/pokemon-list" element={<PokemonList/>} />
+          <Route path="/pokemon-list" element={<PokemonList/>}/>
+          <Route path="/pokemon-list/:id" element={<PokemonDetail />} />
           <Route path="/my-pokemon" element={<MyPokemon/>} />
         </Routes>
         <App/>
