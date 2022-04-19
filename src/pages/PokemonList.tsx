@@ -26,7 +26,7 @@ const GET_POKEMONS = gql`
 
 const PokemonList = () => {
   const [variables, setVariables] = React.useState({
-    limit: 10,
+    limit: 9,
     offset: 0
   });
   const [pokemonList, setPokemonList] = React.useState<PokemonItem[]>([]);
@@ -38,15 +38,15 @@ const PokemonList = () => {
   });
   const loadMore = () => {
     setVariables({
-      limit: 10,
-      offset: variables.offset + 10
+      limit: 9,
+      offset: variables.offset + 9
     });
   }
   return (
     <section className="text-gray-600 body-font">
-      <div className="container px-5 pb-24 pt-5 mx-auto">
-        <h1 className="font-medium leading-tight text-5xl mt-0 mb-2">Pokemon List</h1>
-        <div className="flex flex-wrap">
+      <h1 className="font-medium leading-tight text-5xl px-5 pt-5 mt-0 mb-10">Pokemon List</h1>
+      <div className="container p-10 mb-24 mx-auto bg-white rounded-2xl shadow-2xl">
+        <div className="flex flex-wrap lg:justify-between">
           {loading && <p>Loading...</p>}
           {pokemonList?.map((pokemon: PokemonItem, i: number, array: PokemonItem[]) => (
             <Fragment key={pokemon?.id}>
@@ -56,14 +56,14 @@ const PokemonList = () => {
                        title={pokemon?.name} className="mx-auto h-64"/>
                 </div>
                 <h3 className="text-center text-4xl font-bold mb-4">{pokemon?.name?.toUpperCase()}</h3>
-                <Link to={'/pokemon-list/' + pokemon?.name} className="text-center">
-                  <button className="rounded-xl bg-black px-24 py-2 text-white">Select pokemon</button>
+                <Link to={'/pokemon-list/' + pokemon?.name} className="text-center flex justify-center">
+                  <button className="rounded-xl bg-gradient-to-tr from-red-500 to-pink-300 px-14 py-2 text-white">Select Pokemon</button>
                 </Link>
               </div>
               {i + 1 === array?.length &&
                   <div className="flex justify-center w-full mt-10">
                     <button onClick={loadMore}
-                            className="bg-gradient-to-br from-cyan-300 to-blue-800 hover:scale-105 drop-shadow-md  shadow-cla-blue px-4 py-1 rounded-lg text-white">
+                            className="bg-gradient-to-br from-cyan-300 to-blue-800 hover:scale-105 drop-shadow-md shadow-cla-blue px-4 py-1 rounded-lg text-white">
                       Load More
                     </button>
                   </div>
