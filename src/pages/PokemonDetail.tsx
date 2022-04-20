@@ -45,6 +45,9 @@ const PokemonDetail = () => {
             if (!value) {
               return 'Please enter a nickname!';
             }
+            if (myPokemonList.find(p => p.nickname === value)) {
+              return 'This nickname is already taken!';
+            }
           }
         } as SweetAlertOptions)
           .then((event) => {
@@ -52,6 +55,12 @@ const PokemonDetail = () => {
             const newPokemonList = [...myPokemonList, { ...pokemon, nickname: event?.value }];
             setMyPokemonList(newPokemonList);
             localStorage.setItem('myPokemonList', JSON.stringify(newPokemonList));
+            Swal.fire({
+              title: 'Congratulations!',
+              text: `${event?.value} has been added to My Pokemon!`,
+              icon: 'success',
+              confirmButtonText: 'OK',
+            });
           });
       } else {
         Swal.fire({
@@ -90,7 +99,7 @@ const PokemonDetail = () => {
               <h2 className="text-gray-800 text-3xl font-semibold">{toTitleCase(pokemon?.name)}</h2>
               <div className="flex justify-start gap-1 items-end">
                 <Types types={pokemon?.types}/>
-                <button onClick={onHandleCatch}
+                <button onClick={onHandleCatch} disabled={isCatching}
                   className="bg-gradient-to-br from-pink-300 to-red-700 hover:scale-105 drop-shadow-md shadow-cla-blue px-4 py-1 rounded-lg text-white">
                   Catch!&nbsp;
                   {isCatching && <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 animate-spin inline" fill="none"
