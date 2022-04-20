@@ -85,7 +85,7 @@ const PokemonDetail = () => {
 
   return (
     <section className="text-gray-600 body-font">
-      <h1 className="font-medium leading-tight text-5xl px-5 pt-5 mt-0 mb-10">Pokemon Detail</h1>
+      <h1 className="font-medium leading-tight text-4xl px-5 pt-5 mt-0 mb-10">Pokemon Detail</h1>
       {loading && <div>Loading...</div>}
       {!loading && (
         <div className="flex flex-wrap justify-center gap-6 bg-slate-300 mb-32">

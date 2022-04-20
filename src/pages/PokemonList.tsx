@@ -33,7 +33,7 @@ const PokemonList = () => {
   }
   return (
     <section className="text-gray-600 body-font">
-      <h1 className="font-medium leading-tight text-5xl px-5 pt-5 mt-0 mb-5">Pokemon List</h1>
+      <h1 className="font-medium leading-tight text-4xl px-5 pt-5 mt-0 mb-5">Pokemon List</h1>
       <h3 className="font-medium leading-tight text-2xl px-5 mt-0 mb-5">Caught Pokemon: {caughtPokemonCount}</h3>
       <div className="container p-10 mb-24 mx-auto bg-white rounded-2xl shadow-2xl">
         <div className="flex flex-wrap lg:justify-between justify-center">

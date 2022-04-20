@@ -48,33 +48,35 @@ const MyPokemon = () => {
 
   return (
     <section className="text-gray-600 body-font mb-24">
-      <h1 className="font-medium leading-tight text-5xl px-5 pt-5 mt-0 mb-10">My Pokemon List</h1>
-      { myPokemonList.map((pokemon, index) => (
-        <div className="flex flex-wrap justify-center gap-6 bg-slate-300 mb-2" key={index}>
-          <div className="max-w-lg lg:max-w-screen-lg py-4 px-8 bg-white shadow-lg rounded-2xl mt-10 lg:my-10 w-full">
-            <div className="flex justify-between gap-6 items-stretch border-b border-gray-200 pb-6 mb-4">
-              <h2 className="text-gray-800 text-3xl font-semibold">{pokemon?.nickname}
-                <span className="text-sm text-gray-500"> ({toTitleCase(pokemon?.name)})</span></h2>
-              <div className="flex justify-start gap-1 items-end">
-                <Types types={pokemon?.types}/>
-                <button onClick={() => onRelease(pokemon)}
-                  className="bg-gradient-to-br from-cyan-100 to-blue-400 hover:scale-105 drop-shadow-md shadow-cla-blue px-4 py-1 rounded-lg text-white">
-                  Release&nbsp;
-                </button>
+      <h1 className="font-medium leading-tight text-4xl px-5 pt-5 mt-0 mb-5">My Pokemon List</h1>
+      <div className="lg:flex lg:justify-around lg:gap-6 flex-wrap">
+        { myPokemonList.map((pokemon, index) => (
+          <div className="flex flex-wrap justify-center gap-6 bg-slate-300 mb-2 lg:w-1/3 xl:w/1/4" key={index}>
+            <div className="max-w-lg lg:max-w-screen-lg py-4 px-8 bg-white shadow-lg rounded-2xl mt-10 lg:my-10 w-full">
+              <div className="flex justify-between gap-6 items-stretch border-b border-gray-200 pb-6 mb-4">
+                <h2 className="text-gray-800 text-3xl font-semibold">{pokemon?.nickname}
+                  <span className="text-sm text-gray-500"> ({toTitleCase(pokemon?.name)})</span></h2>
+                <div className="flex justify-start gap-1 items-end">
+                  <Types types={pokemon?.types}/>
+                  <button onClick={() => onRelease(pokemon)}
+                          className="bg-gradient-to-br from-cyan-100 to-blue-400 hover:scale-105 drop-shadow-md shadow-cla-blue px-4 py-1 rounded-lg text-white">
+                    Release&nbsp;
+                  </button>
+                </div>
+              </div>
+              <div style={getPokemonBG(pokemon?.types)} className="flex justify-between pb-6 mb-4 h-48 w-full rounded-2xl shadow">
+                <img className="w-full h-full object-cover"
+                     src={pokemon?.sprites?.front_default} alt={`${pokemon?.name}'s front sprites`}/>
+                <img className="w-full h-full object-cover"
+                     src={pokemon?.sprites?.back_default} alt={`${pokemon?.name}'s front sprites`}/>
+              </div>
+              <div className="grid grid-cols-2 gap-2 border-t border-b border-gray-200 pb-6 mb-4">
+                <Stats stats={pokemon?.stats}/>
               </div>
             </div>
-            <div style={getPokemonBG(pokemon?.types)} className="flex justify-between pb-6 mb-4 h-48 w-full rounded-2xl shadow">
-              <img className="w-full h-full object-cover"
-                   src={pokemon?.sprites?.front_default} alt={`${pokemon?.name}'s front sprites`}/>
-              <img className="w-full h-full object-cover"
-                   src={pokemon?.sprites?.back_default} alt={`${pokemon?.name}'s front sprites`}/>
-            </div>
-            <div className="grid grid-cols-2 gap-2 border-t border-b border-gray-200 pb-6 mb-4">
-              <Stats stats={pokemon?.stats}/>
-            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </section>
   );
 };
