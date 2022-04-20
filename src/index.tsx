@@ -1,35 +1,40 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import { BrowserRouter, Navigate, Route, Routes,  } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes, } from 'react-router-dom';
 import App from './App';
-import MyPokemon from './pages/MyPokemon';
-import PokemonDetail from './pages/PokemonDetail';
-import PokemonList from './pages/PokemonList';
 import reportWebVitals from './reportWebVitals';
 import {
   ApolloClient,
   InMemoryCache,
   ApolloProvider,
-} from "@apollo/client";
+} from '@apollo/client';
+
+const MyPokemon = React.lazy(() => import('./pages/MyPokemon'));
+const PokemonDetail = React.lazy(() => import('./pages/PokemonDetail'));
+const PokemonList = React.lazy(() => import('./pages/PokemonList'));
 
 const client = new ApolloClient({
   uri: 'https://graphql-pokeapi.graphcdn.app',
   cache: new InMemoryCache()
 });
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
 root.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Navigate to="/pokemon-list" replace/>} />
-          <Route path="/pokemon-list" element={<PokemonList/>}/>
-          <Route path="/pokemon-list/:name" element={<PokemonDetail />} />
-          <Route path="/my-pokemon" element={<MyPokemon/>} />
-        </Routes>
+        <React.Suspense>
+          <Routes>
+            <Route path="/" element={<Navigate to="/pokemon-list" replace/>}/>
+            <Route path="/pokemon-list" element={<PokemonList/>}/>
+            <Route path="/pokemon-list/:name" element={<PokemonDetail/>}/>
+            <Route path="/my-pokemon" element={<MyPokemon/>}/>
+          </Routes>
+        </React.Suspense>
         <App/>
       </BrowserRouter>
     </ApolloProvider>

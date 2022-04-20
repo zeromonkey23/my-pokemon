@@ -62,7 +62,7 @@ const PokemonList = () => {
             <Fragment key={pokemon?.id}>
               <div className="p-8 w-96 mt-24 cursor-pointer rounded-3xl bg-gradient-to-tl from-green-300 to-blue-400 transition duration-300 ease-in-out hover:scale-105 shadow-2xl hover:drop-shadow-2xl">
                 <div className="-mb-32 -translate-y-1/2 transform">
-                  <img src={pokemon?.artwork} alt={'Artwork of ' + pokemon?.name}
+                  <img src={pokemon?.artwork} alt={'Artwork of ' + pokemon?.name} loading="lazy"
                        title={pokemon?.name} className="mx-auto h-64"/>
                 </div>
                 <h3 className="text-center text-4xl font-bold mb-4">{pokemon?.name?.toUpperCase()}</h3>
