@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import {
   useQuery,
 } from '@apollo/client';
-import { SwalOptions } from 'sweetalert/typings/modules/options';
 import { toTitleCase, TYPE_COLORS } from '../common/constants';
 import { Pokemon } from '../common/model/response';
 import { GET_POKEMON } from '../common/queries';
@@ -14,15 +13,22 @@ import Swal, { SweetAlertOptions } from 'sweetalert2';
 
 const PokemonDetail = () => {
   const {name} = useParams();
-  const [pokemon, setPokemon] = React.useState<Pokemon>();
-  const [isCatching, setIsCatching] = React.useState(false);
+  const [pokemon, setPokemon] = useState<Pokemon>();
+  const [isCatching, setIsCatching] = useState(false);
+  const [myPokemonList, setMyPokemonList] = useState<Pokemon[]>([]);
   const {loading} = useQuery(GET_POKEMON, {
     variables: { name },
     onCompleted: (data) => {
       setPokemon(data?.pokemon);
     }
   });
-  let nickname: string;
+
+  useEffect(() => {
+    const pokemonList = localStorage.getItem('myPokemonList');
+    if (pokemonList) {
+      setMyPokemonList(JSON.parse(pokemonList));
+    }
+  }, []);
 
   const onHandleCatch = () => {
     setIsCatching(true);
@@ -34,11 +40,18 @@ const PokemonDetail = () => {
           icon: 'success',
           input: 'text',
           inputLabel: 'Your new pokemon nickname',
-          inputValue: nickname,
           confirmButtonText: 'OK',
+          inputValidator: (value) => {
+            if (!value) {
+              return 'Please enter a nickname!';
+            }
+          }
         } as SweetAlertOptions)
-          .then(() => {
+          .then((event) => {
             setIsCatching(false);
+            const newPokemonList = [...myPokemonList, { ...pokemon, nickname: event?.value }];
+            setMyPokemonList(newPokemonList);
+            localStorage.setItem('myPokemonList', JSON.stringify(newPokemonList));
           });
       } else {
         Swal.fire({
@@ -54,6 +67,13 @@ const PokemonDetail = () => {
     }, 1000);
   };
 
+  const pokemonBG = {
+    background: `linear-gradient(
+                   to right, 
+                   ${TYPE_COLORS[pokemon?.types![0]?.type?.name as keyof typeof TYPE_COLORS]}, 
+                   ${TYPE_COLORS[pokemon?.types![1]?.type?.name as keyof typeof TYPE_COLORS] || '#fff'})`
+  }
+
   return (
     <section className="text-gray-600 body-font">
       <h1 className="font-medium leading-tight text-5xl px-5 pt-5 mt-0 mb-10">Pokemon Detail</h1>
@@ -62,8 +82,9 @@ const PokemonDetail = () => {
         <div className="flex flex-wrap justify-center gap-6 bg-slate-300 mb-32">
           <div className="max-w-lg lg:max-w-screen-lg py-4 px-8 bg-white shadow-lg rounded-2xl mt-10 lg:my-10 w-full">
             <div className="flex justify-center lg:justify-end -mt-16 lg:-mt-20 mb-5">
-              <img className="w-1/4 h-1/4 lg:w-32 lg:h-32 object-cover rounded-full border-2 border-white bg-gradient-to-r from-green-200 to-blue-400"
-                   src={pokemon?.sprites?.front_default} alt={`${pokemon?.name}'s front sprites`}/>
+              <img className="w-1/4 h-1/4 lg:w-32 lg:h-32 object-cover rounded-full border-2 border-white"
+                   src={pokemon?.sprites?.front_default} alt={`${pokemon?.name}'s front sprites`}
+                   style={pokemonBG}/>
             </div>
             <div className="flex justify-between gap-6 items-stretch border-b border-gray-200 pb-6 mb-4">
               <h2 className="text-gray-800 text-3xl font-semibold">{toTitleCase(pokemon?.name)}</h2>
@@ -88,8 +109,9 @@ const PokemonDetail = () => {
               <Moves moves={pokemon?.moves}/>
             </div>
             <div className="flex justify-center lg:justify-start mt-5 -mb-16 lg:-mb-20">
-              <img className="w-1/4 h-1/4 lg:w-32 lg:h-32 object-cover rounded-full border-2 border-white bg-gradient-to-r from-green-200 to-blue-400"
-                   src={pokemon?.sprites?.back_default} alt={`${pokemon?.name}'s back sprites`}/>
+              <img className="w-1/4 h-1/4 lg:w-32 lg:h-32 object-cover rounded-full border-2 border-white"
+                   src={pokemon?.sprites?.back_default} alt={`${pokemon?.name}'s back sprites`}
+                   style={pokemonBG}/>
             </div>
           </div>
         </div>

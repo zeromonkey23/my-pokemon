@@ -49,11 +49,12 @@ export interface Sprites {
 }
 
 export interface Pokemon {
-  id: number;
-  name: string;
-  species: Species;
-  types: Type[];
-  moves: Move[];
-  stats: Stat[];
-  sprites: Sprites;
+  id?: number;
+  name?: string;
+  species?: Species;
+  types?: Type[];
+  moves?: Move[];
+  stats?: Stat[];
+  sprites?: Sprites;
+  nickname?: string;
 }

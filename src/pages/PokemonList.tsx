@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import {
   useQuery,
   gql
@@ -30,12 +30,21 @@ const PokemonList = () => {
     offset: 0
   });
   const [pokemonList, setPokemonList] = React.useState<PokemonItem[]>([]);
+  const [caughtPokemonCount, setCaughtPokemonCount] = React.useState(0);
   const {loading} = useQuery(GET_POKEMONS, {
     variables,
     onCompleted: (data) => {
       setPokemonList([...pokemonList, ...data?.pokemons?.results]);
     }
   });
+
+  useEffect(() => {
+    const pokemonList = localStorage.getItem('myPokemonList');
+    if (pokemonList) {
+      setCaughtPokemonCount(JSON.parse(pokemonList)?.length);
+    }
+  }, []);
+
   const loadMore = () => {
     setVariables({
       limit: 9,
@@ -44,13 +53,14 @@ const PokemonList = () => {
   }
   return (
     <section className="text-gray-600 body-font">
-      <h1 className="font-medium leading-tight text-5xl px-5 pt-5 mt-0 mb-10">Pokemon List</h1>
+      <h1 className="font-medium leading-tight text-5xl px-5 pt-5 mt-0 mb-5">Pokemon List</h1>
+      <h3 className="font-medium leading-tight text-2xl px-5 mt-0 mb-5">Caught Pokemon: {caughtPokemonCount}</h3>
       <div className="container p-10 mb-24 mx-auto bg-white rounded-2xl shadow-2xl">
-        <div className="flex flex-wrap lg:justify-between">
+        <div className="flex flex-wrap lg:justify-between justify-center">
           {loading && <p>Loading...</p>}
           {pokemonList?.map((pokemon: PokemonItem, i: number, array: PokemonItem[]) => (
             <Fragment key={pokemon?.id}>
-              <div className="p-8 w-96 mt-28 cursor-pointer rounded-3xl bg-gradient-to-tl from-green-300 to-blue-400 transition duration-300 ease-in-out hover:scale-105 hover:drop-shadow-2xl">
+              <div className="p-8 w-96 mt-24 cursor-pointer rounded-3xl bg-gradient-to-tl from-green-300 to-blue-400 transition duration-300 ease-in-out hover:scale-105 shadow-2xl hover:drop-shadow-2xl">
                 <div className="-mb-32 -translate-y-1/2 transform">
                   <img src={pokemon?.artwork} alt={'Artwork of ' + pokemon?.name}
                        title={pokemon?.name} className="mx-auto h-64"/>
