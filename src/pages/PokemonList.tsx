@@ -1,28 +1,8 @@
 import React, { Fragment, useEffect } from 'react';
-import {
-  useQuery,
-  gql
-} from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { Link } from 'react-router-dom';
 import { PokemonItem } from '../common/model/response';
-
-const GET_POKEMONS = gql`
-    query pokemons($limit: Int, $offset: Int) {
-      pokemons(limit: $limit, offset: $offset) {
-        count
-        next
-        previous
-        status
-        message
-        results {
-          id
-          url
-          name
-          artwork
-        }
-      }
-    }
-  `
+import { GET_POKEMON_LIST } from '../common/queries';
 
 const PokemonList = () => {
   const [variables, setVariables] = React.useState({
@@ -31,7 +11,7 @@ const PokemonList = () => {
   });
   const [pokemonList, setPokemonList] = React.useState<PokemonItem[]>([]);
   const [caughtPokemonCount, setCaughtPokemonCount] = React.useState(0);
-  const {loading} = useQuery(GET_POKEMONS, {
+  const {loading} = useQuery(GET_POKEMON_LIST, {
     variables,
     onCompleted: (data) => {
       setPokemonList([...pokemonList, ...data?.pokemons?.results]);
